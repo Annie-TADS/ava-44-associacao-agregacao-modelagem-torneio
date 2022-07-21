@@ -1,57 +1,140 @@
-# Template para projetos Java usando o Visual Studio Code
+# 4.4 // Associação, Agregação e Modelagem // Torneio
 
-Um _template_ é um projeto base, para não iniciar do zero e ter pelo menos uma estrutura mínima onde se apoiar.
+Use este link do GitHub Classroom para ter sua cópia alterável deste repositório: <>
 
-Antes de começar a desenvolver com este _template_ é necessário ter instalado o Java Software Development Kit (JDK), o editor Visual Studio Code (VSCode) e o utilitário de controle de versão de código _Git_.
+Implementar respeitando os fundamentos de Orientação a Objetos.
 
+**Tópicos desta atividade:** associações, dependências, agregações, modelagem
 
+---
 
-## Instalação e Configuração do JDK
+Implementar o Sistema de Torneio. Todas as classes do modelo devem ficar no pacote [model](src/model/).
 
-É necessário instalar o JDK a partir da versão 8, porém é recomendada versão 11-LTS (Long Term Support - suporte de longo prazo) ou até mesmo a 17-LTS.
+```java
+// PARA SIMPLIFICAÇÃO, APENAS DOIS JOGADORES EM CADA EQUIPE
+Jogador joao    = new Jogador("Joao");
+Jogador jose    = new Jogador("Jose");
 
-Para o Sistema Operacional (SO) Windows, ele pode ser obtido aqui <https://adoptium.net/?variant=openjdk11&jvmVariant=hotspot>. Siga as instruções de instalação e não esqueça de selecionar os opcionais durante o processo, especialmente a parte ⚠️ _"add Java to PATH"_.
+System.out.println(joao.getNome().equals("Joao"));
+System.out.println(jose.getNome().equals("Jose"));
 
-Para Sistemas Operacionais Linux/Debian, como Ubuntu, Pop OS, Mint, Elementary, etc, execute no terminal o comando `sudo apt install openjdk-11-jdk`, que a mágica vai acontecer.
+Jogador mario   = new Jogador("Mario");
+Jogador marcelo = new Jogador("Marcelo");
 
-Para testar a instalação, seja no Windows ou Linux, abra o _Prompt_ de Comando (cmd) ou o Terminal e execute o compilador Java com `javac -version`. A saída deve ser algo com `javac 11.0.9.1`, ou outra versão.
+Jogador pedro   = new Jogador("Pedro");
+Jogador paulo   = new Jogador("Paulo");
 
+Equipe azul     = new Equipe("Equipe Azul");
+Equipe vermelha = new Equipe("Equipe Vermelha");
+Equipe amarela  = new Equipe("Equipe Amarela");
 
+System.out.println(azul.getNome().equals("Equipe Azul"));
+System.out.println(azul.getNumeroJogadores() == 0);
+System.out.println(azul.getJogador(1) == null);
 
-## Instalação e Configuração do Visual Studio Code (VSCode)
+azul.inscrever(joao);
+azul.inscrever(jose);
 
-O VSCode pode ser obtido aqui: <https://code.visualstudio.com/download>. A instalação é semelhante nos Sistemas Operacionais Windows e Linux.
+System.out.println(azul.getNome().equals("Equipe Azul"));
+System.out.println(azul.getNumeroJogadores() == 2);
+System.out.println(azul.getJogador(1).equals(joao));
+System.out.println(azul.getJogador(2).equals(jose));
+System.out.println(azul.getJogador(3) == null);
 
-No Windows, abra o instalador e não esqueça de selecionar todos os opcionais, como _adicionar code ao path_ e _adicionar "abrir com code" ao menu_, por exemplo.
+vermelha.inscrever(mario);
+vermelha.inscrever(marcelo);
 
-No Linux, abra o arquivo `.deb` baixado no gerenciador de pacotes e instale normalmente conforme instruções de seu sistema operacional.
+amarela.inscrever(pedro);
+amarela.inscrever(paulo);
 
-Este _template_ possui uma pasta [.vscode](.vscode) com as extensões necessárias em [extensions.json](.vscode/extensions.json) e as configurações recomendadas em [settings.json](.vscode/settings.json) para um **ambiente de ensino** (configuração didática). Fique a vontade para alterá-los como achar melhor.
+System.out.println(amarela.getJogador(1).equals(pedro));
+System.out.println(amarela.getJogador(2).equals(paulo));
 
-A única extensão obrigatória é a _"vscjava.vscode-java-pack"_.
+Torneio torneio = new Torneio("Torneio de Voleibol: Objetos!");
 
-A extensão _"EditorConfig"_ é bastante recomendada. Ela funciona junto com o arquivo [.editorconfig](.editorconfig) presente neste _template_ para padronizar a formatação dos códigos-fonte.
+// SEM JOGOS, AINDA
+System.out.println(torneio.getNome().equals("Torneio de Voleibol: Objetos!"));
+System.out.println(torneio.getNumeroJogos()     == 0);
+System.out.println(torneio.getJogo(1)           == null);
+System.out.println(torneio.getVencedorTorneio() == null);
 
-Finalmente, se preferes o editor em Português, instale a extensão _Portuguese (Brazil) Language Pack for Visual Studio Code_.
+torneio.inscrever(azul); // ADICIONANDO UMA EQUIPE AO TORNEIO
 
+// COM APENAS UMA EQUIPE NÃO HÁ COMO CONSTRUIR JOGOS
+System.out.println(torneio.getNumeroEquipes()   == 1);
+System.out.println(torneio.getNumeroJogos()     == 0);
+System.out.println(torneio.getJogo(1)           == null);
+System.out.println(torneio.getVencedorTorneio() == null);
 
+torneio.inscrever(vermelha); // ADICIONANDO OUTRA EQUIPE AO TORNEIO
 
-## Instalação e Configuração do Git
+// COM A SEGUNDA EQUIPE FORMA-SE O PRIMEIRO JOGO
+System.out.println(torneio.getNumeroEquipes()   == 2);
+System.out.println(torneio.getNumeroJogos()     == 1);
+System.out.println(torneio.getJogo(1)           != null); // SÓ TEM UM JOGO
+System.out.println(torneio.getJogo(2)           == null); // NÃO HÁ SEGUNDO JOGO
+System.out.println(torneio.getVencedorTorneio() == null);
 
-O Git para Windows pode ser obtido neste link: <https://git-scm.com/download/win>. A instalação é simples e intuitiva. Como sempre, não esqueça dos opcionais, principalmente a opção _adicionar o git ao path_!
+Jogo jogo = torneio.getJogo(1); // OBTENDO O JOGO 1
 
-Para Linux, o comando `sudo apt install git` no terminal faz tudo.
+// AS PRIMEIRAS EQUIPES A SE INSCREVER TÊM PRIORIDADES COMO MANDANTE
+System.out.println(jogo.getMandante()     == azul);
+System.out.println(jogo.getVisitante()    == vermelha);
+System.out.println(jogo.getVencedorJogo() == null);
 
-Para verificar a instalação abra o _prompt_ ou um terminal e execute `git --version`. Se não acusou _"comando não encontrado"_ é porque está tudo funcionando perfeitamente.
+torneio.inscrever(amarela); // INSCREVENDO A TERCEIRA EQUIPE E ÚLTIMA EQUIPE
 
+// COM 3 EQUIPES FORMA-SE 3 JOGOS, SE FOSSEM 4 EQUIPES FORMARIAM-SE 6 PARTIDAS
+// QUE É O CASO DE TODOS CONTRA TODOS SEM JOGO DE VOLTA
+System.out.println(torneio.getNumeroJogos()     == 3);
+System.out.println(torneio.getJogo(1)           != null); // HÁ JOGO 1
+System.out.println(torneio.getJogo(2)           != null); // HÁ JOGO 2
+System.out.println(torneio.getJogo(3)           != null); // HÁ JOGO 3
+System.out.println(torneio.getJogo(4)           == null); // NÃO HÁ QUARTO JOGO
+System.out.println(torneio.getVencedorTorneio() == null); // NÃO HÁ VENCEDOR TORNEIO
 
+// OBTENDO TODOS OS JOGOS
+Jogo primeiroJogo = torneio.getJogo(1);
+Jogo segundoJogo  = torneio.getJogo(2);
+Jogo terceiroJogo = torneio.getJogo(3);
 
-## Códigos-fonte
+// LEMBRANDO: QUEM SE INSCREVE PRIMEIRO TEM PRIORIDADE COMO MANDANTE
+System.out.println(primeiroJogo.getMandante()  == azul);
+System.out.println(primeiroJogo.getVisitante() == vermelha);
+System.out.println(segundoJogo.getMandante()   == azul);
+System.out.println(segundoJogo.getVisitante()  == amarela);
+System.out.println(terceiroJogo.getMandante()  == vermelha);
+System.out.println(terceiroJogo.getVisitante() == amarela);
 
-Considere adicionar os arquivos de código-fonte `.java` no diretório [src](./src/), como o exemplo [src/App.java](./src/App.java).
+// PRECISA FECHAR PELO MENOS TRÊS SETS PARA O JOGO TER UM VENCEDOR
+System.out.println(primeiroJogo.getVencedorSet(1) == null);
+primeiroJogo.fecharSet(25, 19); // 25 PARA MANDANTE E 19 PONTOS PARA VISITANTE
+System.out.println(primeiroJogo.getVencedorSet(1).equals(azul));
+System.out.println(primeiroJogo.getVencedorSet(2) == null);
+System.out.println(primeiroJogo.getVencedorSet(3) == null);
+// NÃO HÁ VENCEDOR DO JOGO AINDA, APENAS APÓS UMA EQUIPE GANHAR TRÊS SETS
+System.out.println(primeiroJogo.getVencedorJogo() == null);
+primeiroJogo.fecharSet(12, 25); // 12 PARA MANDANTE E 25 PONTOS PARA VISITANTE
+System.out.println(primeiroJogo.getVencedorSet(2).equals(vermelha));
+primeiroJogo.fecharSet(25, 20); // 25 PARA MANDANTE E 20 PONTOS PARA VISITANTE
+System.out.println(primeiroJogo.getVencedorSet(3).equals(azul));
+// ESTÁ 2 A 1 PARA A EQUIPE AZUL
+System.out.println(primeiroJogo.getVencedorJogo() == null);
+primeiroJogo.fecharSet(25, 22); // 25 PARA MANDANTE E 22 PONTOS PARA VISITANTE
+System.out.println(primeiroJogo.getVencedorSet(4).equals(azul));
+// 3 A 1 PARA A MANDANTE DO PRIMEIRO JOGO QUE É A EQUIPE AZUL
+System.out.println(primeiroJogo.getVencedorJogo().equals(azul));
 
+// MAS NÃO HÁ VENCEDOR DO TORNEIO AINDA, SÓ DEPOIS DE HAVEREM VENCEDORES NOS
+// TRÊS JOGOS
+System.out.println(torneio.getVencedorTorneio() == null);
 
+// ENTÃO, FECHE OS SETS DO SEGUNDO E TERCEIRO JOGOS A SEGUIR DE MODO QUE TENHAM UM
+// VENCEDOR E LOGO O TORNEIO TENHA UM VENCEDOR A TUA ESCOLHA
 
-## Licenciamento
+// E O VENCEDOR É:
+System.out.println(torneio.getVencedorTorneio().equals(TUA_ESCOLHA));
+```
 
-Este _template_ é _open source_ licenciado sob a GPL, assim como todos os projetos derivados dele. Mais detalhes em [LICENÇA.md](LICENÇA.md).
+---
+Obs.: os casos de teste não podem ser alterados, mas outros podem ser adicionados. Fique a vontade para adicionar códigos que imprimem ou separam os testes, por exemplo.
