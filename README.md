@@ -1,6 +1,6 @@
 # 4.4 // Associação, Agregação e Modelagem // Torneio
 
-Use este link do GitHub Classroom para ter sua cópia alterável deste repositório: <>
+Use este link do GitHub Classroom para ter sua cópia alterável deste repositório: <https://classroom.github.com/a/c2kCcTHp>
 
 Implementar respeitando os fundamentos de Orientação a Objetos.
 
